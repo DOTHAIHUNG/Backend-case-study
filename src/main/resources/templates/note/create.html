@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head">
+    <meta charset="UTF-8">
+    <title>Create INote</title>
+</head>
+<body>
+<h1>Create new Inote</h1>
+<p>
+    <a th:href="@{/notes}">
+        Back to inotes list
+    </a>
+</p>
+<div id="form">
+    <form th:action="@{/create-inotes}" th:object="${note}" method="post">
+        <table>
+            <tr>
+                <td>Title: </td>
+                <td><input type="text" th:field="*{title}"/></td>
+                <td th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Name Error</td>
+            </tr>
+            <tr>
+                <td>Type of Note: </td>
+                <td><select th:field="*{noteType}">
+                    <option th:each="noteType : ${noteTypes}" th:value="${noteType.id}" th:text="${noteType.name}"></option>
+                </select></td>
+            </tr>
+            <tr>
+                <td>Content: </td>
+                <td><input type="text" th:field="*{content}"/></td>
+                <td th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Name Error</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Save"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>

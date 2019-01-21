@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head">
+    <meta charset="UTF-8">
+    <title>Notes</title>
+</head>
+<body>
+<h3>INotes</h3>
+<p>
+    <a th:href="@{/}">
+        Back to homepage
+    </a>
+</p>
+<p>
+    <a th:href="@{/create-inotes}">
+        Create INotes
+    </a>
+</p>
+<div class="notify">
+    <div th:if="${message}">
+        <span th:text="${message}"></span>
+    </div>
+</div>
+<form>
+    <p>Search by title:</p>
+    <input name="search" type="text"/>
+    <input type="submit" value="Search"/>
+</form>
+<div>
+    <a th:href="@{'/'(page=${notes.number - 1})}" th:if="${notes.hasPrevious()}">Previous</a>
+    <span th:text="${notes.number + 1}"></span>/<span th:text="${notes.totalPages}"></span>
+    <a th:href="@{'/'(page=${notes.number + 1})}" th:if="${notes.hasNext()}">Next</a>
+</div>
+<table id="notes">
+    <thread>
+        <tr>
+            <th>No</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>Type</th>
+            <th>Modify</th>
+            <th>View</th>
+        </tr>
+    </thread>
+    <tbody>
+    <tr th:each="note,iterStat : ${notes}">
+        <td th:text="${iterStat.count}"></td>
+        <td th:text="${note.title}"></td>
+        <td th:text="${note.content}"></td>
+        <td th:if="${note.noteType}"
+            th:text="${note.noteType.name}"
+        ></td>
+        <td><a th:href="@{/edit-inotes/__${note.id}__}">Edit</a>|<a th:href="@{/delete-inotes/__${note.id}__}">Delete</a></td>
+        <td><a th:href="@{/view-inotes/__${note.id}__}">View</a></td>
+    </tr>
+    </tbody>
+</table>
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>
